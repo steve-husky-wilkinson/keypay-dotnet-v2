@@ -1,11 +1,13 @@
 using System;
 using System.Net;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using KeyPayV2.Common.Exceptions;
 using Newtonsoft.Json;
 using RestSharp;
 using RestSharp.Authenticators;
+using RestSharp.Serializers.NewtonsoftJson;
 
 namespace KeyPayV2.Common
 {
@@ -17,7 +19,7 @@ namespace KeyPayV2.Common
         private readonly string baseUrl;
         private readonly string userAgent;
 
-        public Action<IRestResponse> ResponseCallback { get; set; }
+        public Action<RestResponse> ResponseCallback { get; set; }
 
         public ApiRequestExecutor(string baseUrl, string userAgent = null)
         {
@@ -87,19 +89,28 @@ namespace KeyPayV2.Common
 
         private RestClient GetClient(RestRequest request)
         {
-            var client = new RestClient
+            var options = new RestClientOptions()
             {
                 BaseUrl = new Uri(baseUrl),
-                Authenticator = Authenticator,
-                Timeout = 600000 // 10 min timeout for long EI queries
+                MaxTimeout = 600000 // 10 min timeout for long EI queries
             };
-            client.UserAgent = userAgent ?? client.UserAgent;
+
+            if (!string.IsNullOrEmpty(userAgent)) options.UserAgent = userAgent;
+
+            var client = new RestClient(options)
+            {
+                Authenticator = Authenticator
+            };
+
+            client.UseNewtonsoftJson();
+
+            //client.UseSerializer(() => new CustomSerializer());
 
             request.OnBeforeDeserialization = resp => HandleResponse(resp, request.Method, request.Resource);
             return client;
         }
 
-        private void HandleResponse(IRestResponse resp, Method requestMethod, string requestResource)
+        private void HandleResponse(RestResponse resp, Method requestMethod, string requestResource)
         {
             ResponseCallback?.Invoke(resp);
             if (resp.ErrorException != null)

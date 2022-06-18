@@ -31,9 +31,9 @@ namespace KeyPayV2.Common
         /// </summary>
         /// <param name="url">URL of the endpoint to call</param>
         /// <param name="method">HTTP Method</param>
-        public void ApiRequest(string url, Method method = Method.GET)
+        public void ApiRequest(string url, Method method = Method.Get)
         {
-            var req = new RestRequest(url, method) { JsonSerializer = new CustomSerializer() };
+            var req = new RestRequest(url, method);
             Api.Execute(req);
         }
 
@@ -43,9 +43,9 @@ namespace KeyPayV2.Common
         /// <param name="url">URL of the endpoint to call</param>
         /// <param name="method">HTTP Method</param>
         /// <param name="cancellationToken">Cancellation token passed with the request</param>
-        public Task ApiRequestAsync(string url, Method method = Method.GET, CancellationToken cancellationToken = default)
+        public Task ApiRequestAsync(string url, Method method = Method.Get, CancellationToken cancellationToken = default)
         {
-            var req = new RestRequest(url, method) { JsonSerializer = new CustomSerializer() };
+            var req = new RestRequest(url, method);
             return Api.ExecuteAsync(req, cancellationToken);
         }
 
@@ -56,9 +56,9 @@ namespace KeyPayV2.Common
         /// <param name="method">HTTP Method</param>
         /// <typeparam name="TResult">Data Type of the returned result</typeparam>
         /// <returns>TResult</returns>
-        public TResult ApiRequest<TResult>(string url, Method method = Method.GET) where TResult : new()
+        public TResult ApiRequest<TResult>(string url, Method method = Method.Get) where TResult : new()
         {
-            var req = new RestRequest(url, method) { JsonSerializer = new CustomSerializer() };
+            var req = new RestRequest(url, method);
             var result = Api.Execute<TResult>(req);
             return result;
         }
@@ -71,9 +71,9 @@ namespace KeyPayV2.Common
         /// <param name="cancellationToken">Cancellation token passed with the request</param>
         /// <typeparam name="TResult">Data Type of the returned result</typeparam>
         /// <returns>TResult</returns>
-        public Task<TResult> ApiRequestAsync<TResult>(string url, Method method = Method.GET, CancellationToken cancellationToken = default) where TResult : new()
+        public Task<TResult> ApiRequestAsync<TResult>(string url, Method method = Method.Get, CancellationToken cancellationToken = default) where TResult : new()
         {
-            var req = new RestRequest(url, method) { JsonSerializer = new CustomSerializer() };
+            var req = new RestRequest(url, method);
             return Api.ExecuteAsync<TResult>(req, cancellationToken);
         }
         
@@ -86,9 +86,9 @@ namespace KeyPayV2.Common
         /// <typeparam name="TResult">Data Type of the returned result</typeparam>
         /// <typeparam name="TInput">Data Type of the input parameter</typeparam>
         /// <returns>TResult</returns>
-        public TResult ApiRequest<TResult, TInput>(string url, TInput input, Method method = Method.GET) where TResult : new()
+        public TResult ApiRequest<TResult, TInput>(string url, TInput input, Method method = Method.Get) where TResult : new() where TInput : class
         {
-            var req = new RestRequest(url, method) { RequestFormat = DataFormat.Json, JsonSerializer = new CustomSerializer() };
+            var req = new RestRequest(url, method) { RequestFormat = DataFormat.Json };
             req.AddJsonBody(input);
             var result = Api.Execute<TResult>(req);
             return result;
@@ -104,9 +104,9 @@ namespace KeyPayV2.Common
         /// <typeparam name="TResult">Data Type of the returned result</typeparam>
         /// <typeparam name="TInput">Data Type of the input parameter</typeparam>
         /// <returns>TResult</returns>
-        public Task<TResult> ApiRequestAsync<TResult, TInput>(string url, TInput input, Method method = Method.GET, CancellationToken cancellationToken = default) where TResult : new()
+        public Task<TResult> ApiRequestAsync<TResult, TInput>(string url, TInput input, Method method = Method.Get, CancellationToken cancellationToken = default) where TResult : new() where TInput : class
         {
-            var req = new RestRequest(url, method) { RequestFormat = DataFormat.Json, JsonSerializer = new CustomSerializer() };
+            var req = new RestRequest(url, method) { RequestFormat = DataFormat.Json };
             req.AddJsonBody(input);
             return Api.ExecuteAsync<TResult>(req, cancellationToken);
         }
@@ -118,9 +118,9 @@ namespace KeyPayV2.Common
         /// <param name="url">URL of the endpoint to call</param>
         /// <param name="method">HTTP Method</param>
         /// <returns>byte[]</returns>
-        public byte[] ApiFileRequest(string url, Method method = Method.GET)
+        public byte[] ApiFileRequest(string url, Method method = Method.Get)
         {
-            var req = new RestRequest(url, method) { JsonSerializer = new CustomSerializer() };
+            var req = new RestRequest(url, method);
             var result = Api.DownloadFile(req);
             return result;
         }
@@ -133,9 +133,9 @@ namespace KeyPayV2.Common
         /// <param name="method">HTTP Method</param>
         /// <param name="cancellationToken">Cancellation token passed with the request</param>
         /// <returns>byte[]</returns>
-        public Task<byte[]> ApiFileRequestAsync(string url, Method method = Method.GET, CancellationToken cancellationToken = default)
+        public Task<byte[]> ApiFileRequestAsync(string url, Method method = Method.Get, CancellationToken cancellationToken = default)
         {
-            var req = new RestRequest(url, method) { JsonSerializer = new CustomSerializer() };
+            var req = new RestRequest(url, method);
             return Api.DownloadFileAsync(req, cancellationToken);
         }
         
@@ -148,9 +148,9 @@ namespace KeyPayV2.Common
         /// <param name="method">HTTP Method</param>
         /// <typeparam name="TInput">Data Type of the input parameter</typeparam>
         /// <returns>byte[]</returns>
-        public byte[] ApiFileRequest<TInput>(string url, TInput input, Method method = Method.GET)
+        public byte[] ApiFileRequest<TInput>(string url, TInput input, Method method = Method.Get) where TInput : class
         {
-            var req = new RestRequest(url, method) { RequestFormat = DataFormat.Json, JsonSerializer = new CustomSerializer() };
+            var req = new RestRequest(url, method) { RequestFormat = DataFormat.Json };
             req.AddJsonBody(input);
             var result = Api.DownloadFile(req);
             return result;
@@ -166,9 +166,9 @@ namespace KeyPayV2.Common
         /// <param name="cancellationToken">Cancellation token passed with the request</param>
         /// <typeparam name="TInput">Data Type of the input parameter</typeparam>
         /// <returns>byte[]</returns>
-        public Task<byte[]> ApiFileRequestAsync<TInput>(string url, TInput input, Method method = Method.GET, CancellationToken cancellationToken = default)
+        public Task<byte[]> ApiFileRequestAsync<TInput>(string url, TInput input, Method method = Method.Get, CancellationToken cancellationToken = default) where TInput : class
         {
-            var req = new RestRequest(url, method) { RequestFormat = DataFormat.Json, JsonSerializer = new CustomSerializer() };
+            var req = new RestRequest(url, method) { RequestFormat = DataFormat.Json };
             req.AddJsonBody(input);
             return Api.DownloadFileAsync(req, cancellationToken);
         }

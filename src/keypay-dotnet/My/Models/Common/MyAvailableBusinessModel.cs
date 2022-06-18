@@ -1,12 +1,9 @@
+using KeyPayV2.My.Enums;
+using KeyPayV2.My.Models.Manager;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
-using System.Net.Http.Headers;
-using KeyPayV2.My.Models.Common;
-using KeyPayV2.My.Models.Manager;
-using KeyPayV2.My.Models.Manager;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json;
-using KeyPayV2.My.Enums;
 
 namespace KeyPayV2.My.Models.Common
 {
