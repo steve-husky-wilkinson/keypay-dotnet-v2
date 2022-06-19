@@ -2,6 +2,8 @@
 
 This is the .NET client V2 for the KeyPay API.
 
+** This fork is to bring the library dependency on Restsharp up to v108.x.x. **
+
 ## Get Started
 
 The KeyPayV2 Client can be installed using the Nuget package manager.
